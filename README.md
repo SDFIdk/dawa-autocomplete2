@@ -2,24 +2,24 @@
 # dawa-autocomplete2
 
 DAWA Autocomplete2 is a JavaScript-component which makes it possible to enter a danish address in a single input field. 
-The component uses [Danmarks Adressers WEB API](https://dawa.aws.dk).
+The component uses [Danmarks Adressers WEB API](https://dawadocs.dataforsyningen.dk).
 
 ## Browser support
 The component is tested in IE11, Edge, Chrome, Safari and Firefox.
 
 ## Usage
 DAWA Autocomplete2 may be installed using NPM, or it may be loaded into the browser using a `<script>`-tag. 
-For a working demo page, please see https://dawa.aws.dk/demo/autocomplete/demo.html
+For a working demo page, please see dawadocs.dataforsyningen.dk/demo/autocomplete/demo.html
 
 ### Usage via &lt;script&gt; tag
 First, include the autocomplete component on the page:
 ```html
-    <script src="https://cdn.aws.dk/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"></script>
+    <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"></script>
 ```
 Note that this version of the autocomplete component polyfills some functionality not supported by IE11, which changes the global namespace.
 If you provide your own polyfills, or do not care about older browsers, we provide a version without polyfills:
 ```html
-    <script src="https://cdn.aws.dk/assets/dawa-autocomplete2/1.0.2/unfilled/dawa-autocomplete2.min.js"></script>
+    <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/unfilled/dawa-autocomplete2.min.js"></script>
 ```
 
 Some CSS rules must be added to the page in order to render the autocomplete suggestions correctly.
@@ -128,7 +128,7 @@ The following options are supported:
  - `baseUrl`: URL to DAWA, defaults to `https://dawa.aws.dk`.
  - `adgangsadresserOnly`: The user enters an access address, not a complete address with floor/suite. Defaults to `false`.
  - `fuzzy`: Whether fuzzy searching is enabled, defaults to `true`.
- - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`. Any parameter supported by the API can be specified. Please see check the [API docs](http://dawa.aws.dk/dok/api/autocomplete#autocomplete) for further information:
+ - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`. Any parameter supported by the API can be specified. Please see check the [API docs](https://dawa.dataforsyningen.dk/dok/api/autocomplete#autocomplete) for further information:
  - `stormodtagerpostnumre`: Whether "stormodtagerpostnumre" will be displayed in suggestions. Defaults to `true`.
  - `minLength`: Number of characters which must be entered before any suggestions is displayed. Defaults to `2`.
  - `multiline`: Display address suggestions on multiple lines. Default `false`.
