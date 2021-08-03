@@ -125,7 +125,7 @@ var component = dawaAutocomplete2.dawaAutocomplete(inputElm, {
 The following options are supported:
 
  - `select`: This function is called whenever the user selects an address.
- - `baseUrl`: URL to DAWA, defaults to `https://dawa.aws.dk`.
+ - `baseUrl`: URL to DAWA, defaults to `https://api.dataforsyningen.dk/adreser`.
  - `adgangsadresserOnly`: The user enters an access address, not a complete address with floor/suite. Defaults to `false`.
  - `fuzzy`: Whether fuzzy searching is enabled, defaults to `true`.
  - `params`: A JavaScript object containing any additional parameters to send to DAWA, e.g. `{kommunekode: "101"}`. Any parameter supported by the API can be specified. Please see check the [API docs](https://dawa.dataforsyningen.dk/dok/api/autocomplete#autocomplete) for further information:
