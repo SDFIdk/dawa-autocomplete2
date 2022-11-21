@@ -4,12 +4,16 @@
   "description": "DAWA Autocomplete komponent",
   "main": "dist/js/dawa-autocomplete2.js",
   "module": "dist/js/dawa-autocomplete2.es.js",
-  "author": "Anders Hessellund Jensen",
+  "author": "Styrelsen for Dataforsyning og Infrastruktur (https://sdfi.dk/)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DanmarksAdresser/dawa-autocomplete2.git"
+    "url": "https://github.com/SDFIdk/dawa-autocomplete2.git"
   },
+  "bugs": {
+    "url": "https://github.com/SDFIdk/dawa-autocomplete2/issues"
+  },
+  "homepage": "https://github.com/SDFIdk/dawa-autocomplete2#dawa-autocomplete2",
   "scripts": {
     "clean": "rimraf dist",
     "eslint": "eslint -c .eslintrc.js .",
