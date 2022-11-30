@@ -36,7 +36,8 @@ for(let polyfilled of [true, false]) {
         plugins: [
           resolve(),
           replace({
-            'process.env.NODE_ENV': JSON.stringify('production')
+            'process.env.NODE_ENV': JSON.stringify('production'),
+            'preventAssignment': true
           }),
           commonjs({}),
           babel(babelConfig),
