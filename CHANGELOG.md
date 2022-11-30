@@ -1,4 +1,6 @@
 # Changelog
+### Version 1.1.0
+ - Fix issue #7 by retiring un-updated karma testing environment. Clean up unused dependencies.
 ### Version 1.0.2
  - Provide files without built-in polyfills for users who provide their own. 
    The unfilled files can be found in the `unfilled` folder both on CDN and NPM.  
