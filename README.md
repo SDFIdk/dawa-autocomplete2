@@ -149,8 +149,8 @@ Calling `destroy` removes the autocomplete component and any event listeners fro
 ```
 
 ## Get help
-There is a [forum](https://digitaliser.dk/group/334445/forum) available on Digitaliser.dk. 
-Feel free to ask any questions there. 
+Contact SDFI support support@sdfi.dk or call +45 78 76 87 92
+Open Monday to Thursday 09:00 AM - 02:00 PM, and Friday 10:00 AM - 14:00 PM.
  
 ## Contributing
 Patches are welcome. To start a development server on port 8080, first clone the repository and then run:
