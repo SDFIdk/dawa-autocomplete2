@@ -121,6 +121,48 @@ var component = dawaAutocomplete2.dawaAutocomplete(inputElm, {
 });
 ```
 
+### Usage in Blazor .net 8
+In App.Razor add the following in the head: 
+```razor
+    @* For dawa autocomple address search *@
+    <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"></script>
+    <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/unfilled/dawa-autocomplete2.min.js"></script>
+    <script>
+        function loadDawaAutocomplete() {
+            dawaAutocomplete.dawaAutocomplete(document.getElementById('dawa-autocomplete-input'), {
+                select: function (selected) {
+                    console.log('Valgt adresse: ' + selected.tekst);
+                }
+            });
+        }
+    </script>
+```
+Make sure you have Microsoft.JSInterop nuget. In any .razor component add this:
+```razor
+    @using Microsoft.JSInterop
+
+<div class="autocomplete-container">
+    <input placeholder="Søg efter adresse" title="Søg efter adresse" type="search" id="dawa-autocomplete-input">
+</div>
+
+<style>
+    /*Add (copy/paste) .css from earlier in this readme here */
+</style>
+
+@code {
+    [Inject]
+    protected IJSRuntime JSRuntime { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("loadDawaAutocomplete");
+        }
+    }
+}
+```
+
 ### Options
 The following options are supported:
 
