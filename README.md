@@ -122,44 +122,137 @@ var component = dawaAutocomplete2.dawaAutocomplete(inputElm, {
 ```
 
 ### Usage in Blazor .net 8
-In App.Razor add the following in the head: 
+In App.Razor add the following in the Head and body: 
 ```razor
+<Head>
     @* For dawa autocomple address search *@
     <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"></script>
     <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/unfilled/dawa-autocomplete2.min.js"></script>
+<Head>
+<body>
+    @* For dawa autocomple address search *@
     <script>
         function loadDawaAutocomplete() {
             dawaAutocomplete.dawaAutocomplete(document.getElementById('dawa-autocomplete-input'), {
                 select: function (selected) {
-                    console.log('Valgt adresse: ' + selected.tekst);
+                    document.getElementById("valgtadresse").innerHTML = selected.tekst;
+
                 }
             });
         }
     </script>
+</body>
 ```
-Make sure you have Microsoft.JSInterop nuget. In any .razor component add this:
+Make sure you have Microsoft.JSInterop nuget. In any .razor component add this: 
+Underneath is demonstrated how text can be retrived from the autocomplete component,this is then used to make http r request to get other information into memory of the app. 
 ```razor
-    @using Microsoft.JSInterop
+ @using Microsoft.JSInterop
+@using Newtonsoft.Json
 
-<div class="autocomplete-container">
-    <input placeholder="Søg efter adresse" title="Søg efter adresse" type="search" id="dawa-autocomplete-input">
+<div  class="autocomplete-container">
+    <input  placeholder="Søg efter adresse" title="Søg efter adresse" @bind-value="@adresseString" @bind-value:event="onchange" type="search" id="dawa-autocomplete-input">
 </div>
+<p>Valgt adresse:  @adresseString</p>
+<SfButton @onclick="AccessValgtadresseElement">HTTP REQUEST Get adresse from DAWA</SfButton>
+
+
+<p>
+    Projekt er beliggende på @adresseString, i @kommune kommune, i @regionsnavn. Adressen har er i ejerlav @ejerlavnavn med matrikel nr. @matrikelnr .
+    Bebyggelsen er i en @zone og ca. DHM(@højde) . Koordinatorner til adressen er bredde/længde @wgs84koordinat_bredde / @wgs84koordinat_længde
+</p>
 
 <style>
     /*Add (copy/paste) .css from earlier in this readme here */
 </style>
 
 @code {
-    [Inject]
-    protected IJSRuntime JSRuntime { get; set; }
+    [Inject] protected IJSRuntime JSRuntime { get; set; }
+    private string adresseString;
 
+    //Initiates the DAWA autocomplete
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             await JSRuntime.InvokeVoidAsync("loadDawaAutocomplete");
         }
+
     }
+
+    //value to populate with the Http response, could be whatever, eg. a class.
+    string vejnavn;
+    string husnr;
+    string etage;
+    string dør;
+    string postnr;
+    string postnrnavn;
+    string kommune;
+    string ejerlavnavn;
+    string matrikelnr;
+    string regionsnavn;
+    string højde;
+    string wgs84koordinat_bredde;
+    string wgs84koordinat_længde;
+    string zone;
+
+    //Make the request to the API
+    private async Task<string> GetApiResponse(string apiUrl)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            HttpResponseMessage response = await client.GetAsync(apiUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                return json;
+            }
+            else
+            {
+                // Handle error response
+                return null;
+            }
+        }
+    }
+        private async Task ProcessApiResponse(string json)
+        {
+            // Deserialize the JSON response into a dynamic object
+            dynamic result = JsonConvert.DeserializeObject<dynamic>(json);
+
+            // Access the desired values from the result object
+            vejnavn = result[0]["vejnavn"];
+            husnr = result[0]["husnr"];
+            etage = result[0]["etage"];
+            dør = result[0]["dør"];
+            postnr = result[0]["postnr"];
+            postnrnavn = result[0]["postnrnavn"];
+            kommune = result[0]["kommune"];
+            ejerlavnavn = result[0]["ejerlavnavn"];
+            matrikelnr = result[0]["matrikelnr"];
+            regionsnavn = result[0]["regionsnavn"];
+            højde = result[0]["højde"];
+            wgs84koordinat_bredde = result[0]["wgs84koordinat_bredde"];
+            wgs84koordinat_længde = result[0]["wgs84koordinat_længde"];
+            zone = result[0]["zone"];
+
+            // Do something with the values, save to db or whatever
+            // ...
+        }
+
+        private async Task AccessValgtadresseElement()
+        {
+        var apiUrl = $"https://api.dataforsyningen.dk/adresser/?q={Uri.EscapeDataString(adresseString)}&struktur=flad";
+
+            string json = await GetApiResponse(apiUrl);
+
+            if (json != null)
+            {
+                await ProcessApiResponse(json);
+            }
+            else
+            {
+                // Handle error case
+            }
+        }
 }
 ```
 
