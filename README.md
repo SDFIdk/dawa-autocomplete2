@@ -157,7 +157,6 @@ Underneath is demonstrated how text can be retrived from the autocomplete compon
 
 
 <p>
-    Projekt er beliggende på @adresseString, i @kommune kommune, i @regionsnavn. Adressen har er i ejerlav @ejerlavnavn med matrikel nr. @matrikelnr .
     Bebyggelsen er i en @zone og ca. DHM(@højde) . Koordinatorner til adressen er bredde/længde @wgs84koordinat_bredde / @wgs84koordinat_længde
 </p>
 
@@ -180,16 +179,6 @@ Underneath is demonstrated how text can be retrived from the autocomplete compon
     }
 
     //value to populate with the Http response, could be whatever, eg. a class.
-    string vejnavn;
-    string husnr;
-    string etage;
-    string dør;
-    string postnr;
-    string postnrnavn;
-    string kommune;
-    string ejerlavnavn;
-    string matrikelnr;
-    string regionsnavn;
     string højde;
     string wgs84koordinat_bredde;
     string wgs84koordinat_længde;
@@ -219,16 +208,6 @@ Underneath is demonstrated how text can be retrived from the autocomplete compon
             dynamic result = JsonConvert.DeserializeObject<dynamic>(json);
 
             // Access the desired values from the result object
-            vejnavn = result[0]["vejnavn"];
-            husnr = result[0]["husnr"];
-            etage = result[0]["etage"];
-            dør = result[0]["dør"];
-            postnr = result[0]["postnr"];
-            postnrnavn = result[0]["postnrnavn"];
-            kommune = result[0]["kommune"];
-            ejerlavnavn = result[0]["ejerlavnavn"];
-            matrikelnr = result[0]["matrikelnr"];
-            regionsnavn = result[0]["regionsnavn"];
             højde = result[0]["højde"];
             wgs84koordinat_bredde = result[0]["wgs84koordinat_bredde"];
             wgs84koordinat_længde = result[0]["wgs84koordinat_længde"];
