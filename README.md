@@ -122,6 +122,11 @@ var component = dawaAutocomplete2.dawaAutocomplete(inputElm, {
 ```
 
 ### Usage in Blazor .net 8
+Vi takker
+Daniel Bo Olesen
+27289441
+arbejde dbo@oceng.dk / privat danielboolesen1@me.com for dette bidrag til at udbrede brugen af Autocomplete.🙏🏻
+
 Not a native implementation with .razor components, the overall method is to use the .js and get the selected address into memory and make a http request with it, and manage the response. This setup is tested in a blank app. The solution could be more refined for production purposes, but provides a basic proff of concept for using the DawaAutoComplete in blazor.
 In App.Razor add the following in the Head and body: 
 ```razor
