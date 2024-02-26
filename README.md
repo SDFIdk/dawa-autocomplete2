@@ -150,12 +150,12 @@ Underneath is demonstrated how text can be retrived from the autocomplete compon
 @using Newtonsoft.Json
 
 <div class="autocomplete-container">
-    <input placeholder="Søg efter adresse" title="Søg efter adresse" @bind-value="@adresseString" @bind-value:event="onchange" type="search" id="dawa-autocomplete-input">
+    <input placeholder="Search for adress" title="Search for adress" @bind-value="@adresseString" @bind-value:event="onchange" type="search" id="dawa-autocomplete-input">
 </div>
-<p>Valgt adresse fra javascript: <span id="valgtadresse" /></p>
-<p>Valgt adresse fra blazor kode:  @adresseString</p>
-<button @onclick="AccessValgtadresseElement">HTTP REQUEST Get adresse from DAWA</button>
-<p>The adress @betegnelse is in a @zone and at DHM(@højde). Coordinates to the adress is latitude/longitude @wgs84koordinat_bredde/@wgs84koordinat_længde </p>
+<p>Choosen adress from javascript in app.razor body: <span id="valgtadresse" /></p>
+<p>Chosen adresse from blazor bind-value:  @adresseString</p>
+<button @onclick="AccessValgtadresseElement">HTTP REQUEST Get full adresse json from DAWA</button>
+<p>USE VALUES FROM JASON: The adress @betegnelse is in a @zone and at DHM(@højde). Coordinates to the adress is latitude/longitude @wgs84koordinat_bredde/@wgs84koordinat_længde </p>
 
 <style>
    /*Add (copy/paste) .css from earlier in this readme here */
@@ -172,7 +172,6 @@ Underneath is demonstrated how text can be retrived from the autocomplete compon
         {
             await JSRuntime.InvokeVoidAsync("loadDawaAutocomplete");
         }
-
     }
 
     //values to populate with the Http response, could be whatever, eg. a class.
