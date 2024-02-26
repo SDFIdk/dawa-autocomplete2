@@ -121,6 +121,119 @@ var component = dawaAutocomplete2.dawaAutocomplete(inputElm, {
 });
 ```
 
+### Usage in Blazor .net 8
+Not a native implementation with .razor components, the overall method is to use the .js and get the selected address into memory and make a http request with it, and manage the response. This setup is tested in a blank app. The solution could be more refined for production purposes, but provides a basic proff of concept for using the DawaAutoComplete in blazor.
+In App.Razor add the following in the Head and body: 
+```razor
+<Head>
+    @* For dawa autocomple address search *@
+    <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"></script>
+    <script src="https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/unfilled/dawa-autocomplete2.min.js"></script>
+<Head>
+<body>
+    @* For dawa autocomple address search *@
+    <script>
+        function loadDawaAutocomplete() {
+            dawaAutocomplete.dawaAutocomplete(document.getElementById('dawa-autocomplete-input'), {
+                select: function (selected) {
+                    document.getElementById("valgtadresse").innerHTML = selected.tekst;
+                }
+            });
+        }
+    </script>
+</body>
+```
+Make sure you have Microsoft.JSInterop and Newtonsoft.json nuget. In any .razor component add this: 
+Underneath is demonstrated how text can be retrived from the autocomplete component, this is then used to make http request with r= to get other information into memory. 
+```razor
+@using Microsoft.JSInterop
+@using Newtonsoft.Json
+
+<div class="autocomplete-container">
+    <input placeholder="Search for adress" title="Search for adress" @bind-value="@adresseString" @bind-value:event="onchange" type="search" id="dawa-autocomplete-input">
+</div>
+<p>Choosen adress from javascript in app.razor body: <span id="valgtadresse" /></p>
+<p>Chosen adresse from blazor bind-value:  @adresseString</p>
+<button @onclick="AccessValgtadresseElement">HTTP REQUEST Get full adresse json from DAWA</button>
+<p>USE VALUES FROM JASON: The adress @betegnelse is in a @zone and at DHM(@højde). Coordinates to the adress is latitude/longitude @wgs84koordinat_bredde/@wgs84koordinat_længde </p>
+
+<style>
+   /*Add (copy/paste) .css from earlier in this readme here */
+</style>
+
+@code {
+    [Inject] protected IJSRuntime JSRuntime { get; set; }
+    private string adresseString;
+
+    //Initiates the DAWA autocomplete
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("loadDawaAutocomplete");
+        }
+    }
+
+    //values to populate with the Http response, could be whatever, eg. a class.
+    string betegnelse;
+    string højde;
+    string wgs84koordinat_bredde;
+    string wgs84koordinat_længde;
+    string zone;
+
+    //Make the request to the API
+    private async Task<string> GetApiResponse(string apiUrl)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            HttpResponseMessage response = await client.GetAsync(apiUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                return json;
+            }
+            else
+            {
+                // Handle error response
+                return null;
+            }
+        }
+    }
+    private async Task ProcessApiResponse(string json)
+    {
+        // Deserialize the JSON response into a dynamic object
+        dynamic result = JsonConvert.DeserializeObject<dynamic>(json);
+
+        // Access the desired values from the result object
+        betegnelse = result[0]["betegnelse"];
+        højde = result[0]["højde"];
+        wgs84koordinat_bredde = result[0]["wgs84koordinat_bredde"];
+        wgs84koordinat_længde = result[0]["wgs84koordinat_længde"];
+        zone = result[0]["zone"];
+
+        // Do something with the values, save to db or whatever
+        // ...
+    }
+    //The selected string from the DAWA autocomplete is used to make the request to the API, the q search is used see dawa documentation, and the struktur=flad is used to simplify response structure.
+    private async Task AccessValgtadresseElement()
+    {
+        var apiUrl = $"https://api.dataforsyningen.dk/adresser/?q={Uri.EscapeDataString(adresseString)}&struktur=flad";
+        string json = await GetApiResponse(apiUrl);
+        if (json != null)
+        {
+            await ProcessApiResponse(json);
+        }
+        else
+        {
+            // Handle error case
+        }
+        //On submit the input field is cleared and the component is re-rendered
+        adresseString = null;
+        await JSRuntime.InvokeVoidAsync("loadDawaAutocomplete");
+    }
+}
+```
+
 ### Options
 The following options are supported:
 
