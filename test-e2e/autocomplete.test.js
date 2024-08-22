@@ -71,5 +71,27 @@ describe('Autocomplete', () => {
       await wd.waitForElementByRegex('li.dawa-selected', /Margretheparken/);
     });
 
+    it('Kan opdatere komponentens interne selected state efter valg af adresse med click', async () => {
+      const wd = wdFn();
+
+      async function getSelectedText() {
+        return await wd.runScript('return compAutocompleteDefault.selected() ? compAutocompleteDefault.selected().tekst : null;')
+      }
+
+      const inputElm = await wd.findElementByCss('#autocomplete-default');
+
+      assert.equal(await getSelectedText(), null)
+      // click to set focus on input
+      await wd.elementClick(inputElm);
+      await wd.elementSendKeyText(inputElm, 'Degnelodden');
+
+      const suggestion = await wd.waitForElementByRegex('li.dawa-autocomplete-suggestion',
+          /Degnelodden 2, 9000 Aalborg.*/, { first: true});
+      await wd.elementClick(suggestion)
+
+      await wd.waitUntil(async () => await getSelectedText() !== null);
+
+      assert.equal(await getSelectedText(), 'Degnelodden 2, 9000 Aalborg')
+    })
   });
 });
