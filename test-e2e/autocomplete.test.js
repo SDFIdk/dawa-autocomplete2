@@ -71,5 +71,16 @@ describe('Autocomplete', () => {
       await wd.waitForElementByRegex('li.dawa-selected', /Margretheparken/);
     });
 
+    it('Kan give adgang til data bag den standard valgte adresse', async () => {
+      const wd = wdFn();
+      const inputElm = await wd.findElementByCss('#autocomplete-address-id');
+      const wrapper = await wd.findElementByCss('.dawa-autocomplete-container.address-id');
+
+      const contents = await wd.getElementText(wrapper)
+
+      assert.match(contents, /Kommunekode: 0101/)
+      assert.match(contents, /x: 12\.53/)
+      assert.match(contents, /y: 55\.70/)
+    })
   });
 });

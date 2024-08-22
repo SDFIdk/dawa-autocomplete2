@@ -251,6 +251,7 @@ The following options are supported:
  - `minLength`: Number of characters which must be entered before any suggestions is displayed. Defaults to `2`.
  - `multiline`: Display address suggestions on multiple lines. Default `false`.
  - `id`: Initialize the input field with the address specified by the given UUID. If the address does not exist, the input field is left empty.
+ - `onLoadInitial`: This function is called whenever an initial value is loaded, either with the `id` option, or the `component.id(guid)` function
 
 ### API
 The component has the following api:

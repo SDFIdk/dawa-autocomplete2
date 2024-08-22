@@ -39,6 +39,11 @@ export function dawaAutocomplete(inputElm, options) {
   if(options.id) {
     controller.selectInitial(options.id);
   }
+
+  if (options.onLoadInitial) {
+    controller.setInitialLoadCallback(options.onLoadInitial)
+  }
+
   return {
     id: id => controller.selectInitial(id),
     destroy: () => ui.destroy(),
