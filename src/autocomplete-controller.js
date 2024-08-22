@@ -21,6 +21,7 @@ const defaultOptions = {
     /*eslint no-console: 0*/
     console.error('No initialRenderCallback supplied');
   },
+  initalLoadCallback: () => null,
   type: 'adresse',
   baseUrl: 'https://dawa.aws.dk',
   adgangsadresserOnly: false,
@@ -154,6 +155,9 @@ export class AutocompleteController {
       if(result.length === 1) {
         this.selected = result[0];
         this.options.initialRenderCallback(result[0].tekst);
+        this.options.initalLoadCallback(result[0])
+      } else {
+        this.options.initalLoadCallback(null)
       }
     }
     else {
@@ -183,6 +187,10 @@ export class AutocompleteController {
 
   setSelectCallback(selectCallback) {
     this.options.selectCallback = selectCallback;
+  }
+
+  setInitialLoadCallback(loadCallback) {
+    this.options.initalLoadCallback = loadCallback;
   }
 
   update(text, caretpos) {
