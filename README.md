@@ -1,4 +1,12 @@
-![Build Status](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoidFUyM1pUSGdsVGF1R0cyWlcxeTM1NnlnYmZYVUVCR3BSQXFlUTNVQWJnbGg2VVE1bk5oTnIyL2oxUE5uNWRjMERpTlc0bXZmWkZrSGQxUHhYblptcEhRPSIsIml2UGFyYW1ldGVyU3BlYyI6IjVNQnMyeVFWNDVYUjBOTkUiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+## Please consider using Gsearch instead of DAWA Autocomplete
+https://github.com/SDFIdk/gsearch
+
+https://github.com/SDFIdk/gsearch-ui
+
+DAWA-autocomplete is approaching end of life
+
+Unfortunately we are no longer able to support the data sources and the codebase
+
 # dawa-autocomplete2
 
 DAWA Autocomplete2 is a JavaScript-component which makes it possible to enter a danish address in a single input field. 
