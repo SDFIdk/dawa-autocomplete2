@@ -285,6 +285,20 @@ Patches are welcome. To start a development server on port 8080, first clone the
  - `npm run dev`
  
 Now you can open http://localhost:8080/html/demo .
+
+### Running test
+To run the end-to-end testsuite, you need a Browserstack account and some environment variables setup:
+
+```
+BROWSERSTACK_ACCESS_KEY=<your key>
+BROWSERSTACK_USERNAME=<your username>
+```
+
+With those in place, you can run
+
+- `npm run test-e2e`
+
+Note that the dev server needs to be running in order for tests to work.
  
 ## License
 Copyright © 2019 Styrelsen for Dataforsyning og Effektivisering (SDFE)

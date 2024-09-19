@@ -137,6 +137,7 @@ export class AutocompleteController {
         const item = result[0];
         if (item.type === this.options.type) {
           this.options.selectCallback(item);
+          this.selected = item
         }
         else {
           if (!this.state.pendingRequest) {
