@@ -172,6 +172,13 @@ const withWebdriverClient = (testDefFn) => {
   setupBrowserstackLocal();
   for(let capabilities of capabilitiesList) {
     let wd = null;
+    const browserFilter = process.env.E2E_BROWSER_FILTER
+    if (browserFilter && !browserFilter.includes(capabilities.browserName)) {
+      // skip this browser name
+      describe.skip(capabilities.browserName, () => null)
+      continue
+    }
+
     describe(capabilities.browserName, () => {
       before(async () => {
         const client = await WebDriver.newSession({
@@ -180,7 +187,8 @@ const withWebdriverClient = (testDefFn) => {
           port: 80,
           capabilities: capabilities,
           user: process.env.BROWSERSTACK_USERNAME,
-          key: process.env.BROWSERSTACK_ACCESS_KEY
+          key: process.env.BROWSERSTACK_ACCESS_KEY,
+          logLevel: process.env.E2E_LOG_LEVEL,
         });
         wd = new WebdriverWrapper(client);
       });

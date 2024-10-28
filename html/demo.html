@@ -48,8 +48,13 @@
     <input type="search" id="autocomplete-stormodtagerpostnumre-true">
 </div>
 <h3>addressId</h3>
-<div class="dawa-autocomplete-container">
+<div class="dawa-autocomplete-container address-id">
     <input type="search" id="autocomplete-address-id">
+    <ul>
+        <li>Kommunekode: <span data-field="kommunekode"></span></li>
+        <li>x: <span data-field="x"></span></li>
+        <li>y: <span data-field="y"></span></li>
+    </ul>
 </div>
 <h3>vejnavn</h3>
 <div class="dawa-autocomplete-container">
@@ -124,11 +129,21 @@
     },
     stormodtagerpostnumre: true
   });
-  dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-address-id"), {
+  const autocompleteAddressId = dawaAutocomplete.dawaAutocomplete(document.getElementById("autocomplete-address-id"), {
     baseUrl:BASE_URL,
     select: function(selected) {
       console.log('Selected address:');
       console.dir(selected);
+    },
+    onLoadInitial: function(value) {
+        const field = document.getElementById("autocomplete-address-id")
+        const fieldWrapper = field.closest('.dawa-autocomplete-container')
+        fieldWrapper.querySelector('[data-field="kommunekode"]').innerText = value ? value.data.kommunekode : ''
+        fieldWrapper.querySelector('[data-field="y"]').innerText = value ? value.data.y : ''
+        fieldWrapper.querySelector('[data-field="x"]').innerText = value ? value.data.x : ''
+        if (!value) {
+            field.value = ''
+        }
     },
     id: 'f5a68d45-935b-48d6-8d11-6363327ca1ae'
   });
