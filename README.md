@@ -1,11 +1,7 @@
-## Please consider using Gsearch instead of DAWA Autocomplete
+## You could also use Gsearch
 https://github.com/SDFIdk/gsearch
 
 https://github.com/SDFIdk/gsearch-ui
-
-DAWA-autocomplete is approaching end of life
-
-Unfortunately we are no longer able to support the data sources and the codebase
 
 # dawa-autocomplete2
 
